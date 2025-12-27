@@ -1,0 +1,167 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String?  // Optional for OAuth users
+  name      String
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile      UserProfile?
+  sentMatches  Match[]      @relation("User1Matches")
+  receivedMatches Match[]   @relation("User2Matches")
+  sentMessages    ChatMessage[]
+  chats           ChatParticipant[]
+  sessions        Session[]
+  sentReviews     Review[]  @relation("ReviewerReviews")
+  receivedReviews Review[]  @relation("RevieweeReviews")
+}
+
+model UserProfile {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  city         String?
+  bio          String?
+  trustScore   Float     @default(0)
+  timezone     String    @default("UTC")
+  availableDays String[]
+  availableHoursStart String
+  availableHoursEnd   String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  skills UserSkill[]
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  name     String @unique
+  category String
+  createdAt DateTime @default(now())
+
+  userSkills UserSkill[]
+}
+
+model UserSkill {
+  id        String      @id @default(cuid())
+  profileId String
+  skillId   String
+  type      String      // "teach" or "learn"
+  level     String?     // beginner, intermediate, advanced
+  createdAt DateTime    @default(now())
+
+  profile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  skill   Skill       @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, skillId, type])
+  @@index([profileId])
+  @@index([type])
+}
+
+model Match {
+  id        String   @id @default(cuid())
+  user1Id   String
+  user2Id   String
+  user1     User     @relation("User1Matches", fields: [user1Id], references: [id])
+  user2     User     @relation("User2Matches", fields: [user2Id], references: [id])
+  matchScore Float
+  status    String   @default("pending") // pending, active, completed, declined
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chat    Chat?
+  sessions Session[]
+
+  @@unique([user1Id, user2Id])
+  @@index([user1Id])
+  @@index([user2Id])
+  @@index([status])
+}
+
+model Chat {
+  id        String   @id @default(cuid())
+  matchId   String   @unique
+  match     Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  participants ChatParticipant[]
+  messages     ChatMessage[]
+}
+
+model ChatParticipant {
+  id        String   @id @default(cuid())
+  chatId    String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([chatId, userId])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  chatId    String
+  senderId  String
+  sender    User     @relation(fields: [senderId], references: [id])
+  content   String
+  read      Boolean  @default(false)
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([chatId])
+  @@index([senderId])
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  matchId     String
+  match       Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  organizerId String
+  organizer   User     @relation(fields: [organizerId], references: [id])
+  scheduledAt DateTime
+  duration    Int      // in minutes
+  status      String   @default("scheduled") // scheduled, completed, cancelled
+  skill       String
+  location    String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reviews Review[]
+
+  @@index([matchId])
+  @@index([organizerId])
+  @@index([scheduledAt])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  sessionId  String
+  session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  reviewerId String
+  reviewer   User     @relation("ReviewerReviews", fields: [reviewerId], references: [id])
+  revieweeId String
+  reviewee   User     @relation("RevieweeReviews", fields: [revieweeId], references: [id])
+  rating     Int      // 1-5
+  comment    String
+  createdAt  DateTime @default(now())
+
+  @@unique([sessionId, reviewerId])
+  @@index([revieweeId])
+}
+

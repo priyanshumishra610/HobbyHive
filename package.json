@@ -1,0 +1,29 @@
+{
+  "name": "hobbyhive",
+  "version": "1.0.0",
+  "description": "Skill & Hobby Exchange Platform",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web",
+    "dev:backend": "npm run dev --workspace=backend",
+    "build": "npm run build --workspace=apps/web",
+    "build:backend": "npm run build --workspace=backend",
+    "type-check": "npm run type-check --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "rm -rf node_modules apps/*/node_modules backend/node_modules shared/node_modules"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
+
