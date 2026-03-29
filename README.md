@@ -13,19 +13,19 @@ If you play guitar and want to learn cooking, and someone cooks like a chef but 
 
 ---
 
-## ✨ Vision
+##  Vision
 To create the **largest global learning network**, where skills flow freely between people like energy in a hive — collaborative, powerful, unstoppable.
 
 ---
 
-## 🎯 Mission
+##  Mission
 Democratize learning.  
 Eliminate the "I wish I could learn" barrier.  
 Replace money → with **community**, **collaboration**, and **human exchange**.
 
 ---
 
-# 🌟 Key Features
+#  Key Features
 
 ## 🔗 Skill Exchange Engine
 - ✔️ Learn any skill  
@@ -36,7 +36,7 @@ Replace money → with **community**, **collaboration**, and **human exchange**.
 
 ---
 
-## 🤖 AI Powered Smart Matching
+##  AI Powered Smart Matching
 HobbyHive is brainy.  
 It understands your:
 
@@ -46,12 +46,12 @@ It understands your:
 - Available time  
 - Location preference (Online / Offline)  
 
-Then it finds the **perfect match** 🤝  
+Then it finds the **perfect match**   
 Smart. Fast. Meaningful.
 
 ---
 
-## 🧠 AI Learning Mentor
+##  AI Learning Mentor
 Get your personal AI coach:
 
 - Personalized learning roadmap  
@@ -62,7 +62,7 @@ Get your personal AI coach:
 
 ---
 
-## 👥 Hyper-Trust Community System
+##  Hyper-Trust Community System
 Because trust matters.
 
 - Profile verification  
@@ -75,7 +75,7 @@ Safer. Stronger. Trusted.
 
 ---
 
-## 🗓️ Seamless Scheduling & Communication
+##  Seamless Scheduling & Communication
 No chaos. No confusion.
 
 - In-app chat  
@@ -87,7 +87,7 @@ Just smooth collaboration.
 
 ---
 
-## 🎭 Interest Communities & Clubs
+##  Interest Communities & Clubs
 Join communities like:
 
 - 🎸 Music Club  
